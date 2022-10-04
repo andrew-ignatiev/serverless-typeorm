@@ -1,0 +1,94 @@
+service: nestjs-event
+useDotenv: true
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: ^2.25.2
+
+# Setting the variable resolution mode to a version that will interpret
+# StringList ssm parameters as a list of strings
+variablesResolutionMode: 20210326
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-deployment-bucket
+  - serverless-scriptable-plugin
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 512
+  stage: ${opt:stage,'dev'}
+  region: ${opt:region,'eu-west-1'}
+  lambdaHashingVersion: 20201221
+  tracing:
+    apiGateway: true
+    lambda: true
+  iam:
+    role: 'test'
+  vpc:
+    securityGroupIds: 'test'
+    subnetIds: 'test'
+  environment:
+    SLS_STAGE: 'test'
+    SECRET_ORM: '{"default":"/database/${opt:stage}/event","migration":"/database/${opt:stage}/event_migration"}'
+    ORM_DB_HOST: 'test'
+    CORS_DOMAINS: 'test'
+    NO_COLOR: true
+  apiGateway:
+    shouldStartNameWithService: true
+    resourcePolicy:
+      - Effect: Allow
+        Principal: "*"
+        Action: execute-api:Invoke
+        Resource:
+          - arn:test
+        Condition:
+          IpAddress:
+            aws:SourceIp: 'test'
+  deploymentBucket:
+    name: 'test'
+    serverSideEncryption: AES256
+  stackPolicy:
+    - Effect: Allow
+      Action: "Update:*"
+      Principal: "*"
+      Resource: "*"
+
+custom:
+  commands:
+    runMigrations: 'node ./node_modules/serverless/bin/serverless invoke -f db-v1 -s ${opt:stage} -c ./serverless.yml'
+  webpack:
+    packager: 'npm'
+    webpackConfig: './sls/build/webpack.config.js'
+    packagerOptions:
+      scripts:
+        - 'npx clean-modules@2.0.4 --yes --exclude "**/makefile*"'
+    includeModules:
+      forceExclude:
+        - 'aws-sdk'
+  scriptable:
+    # add custom hooks
+    hooks:
+      after:deploy:finalize: '${self:custom.commands.runMigrations}'
+
+package:
+  individually: true
+
+functions:
+  http-v1:
+    handler: apps/event/src/http/lambda.handler
+    timeout: 10 # 10 seconds
+    events:
+      - http:
+          method: get
+          path: /{proxy+}
+          cors:
+            origins: 'test'
+            allowCredentials: true
+            maxAge: 600 # Indicates how long the results of a preflight request can be cached
+            cacheControl: 'max-age=600, s-maxage=600, proxy-revalidate' # Caches on browser and proxy for 10 minutes and doesn't allow proxy to serve out of date content
+  db-v1:
+    handler: apps/event/src/migration/lambda.handler
+    timeout: 900 # 15 minutes in seconds

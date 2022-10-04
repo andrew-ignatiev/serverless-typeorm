@@ -44,5 +44,4 @@ lerna-debug.log*
 .webpack
 
 # Serverless
-serverless.yml
 local-docker-compose.yml

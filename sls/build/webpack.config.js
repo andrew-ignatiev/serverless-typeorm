@@ -6,7 +6,7 @@ const nodeExternals = require('webpack-node-externals');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = (async () => {
-  const isLocal = slsw.lib.webpack.isLocal;
+  const isLocal = false; //slsw.lib.webpack.isLocal;
   const include = [
     // include only libs and required apps folders for ts-loader
     ...new Set(
