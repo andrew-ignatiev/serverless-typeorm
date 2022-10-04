@@ -18,10 +18,10 @@ import { ApiQueryFilterDto } from './dto';
 import { ApiEventService } from './api-event.service';
 import { ApiEventResponse } from './api-event.response';
 
-@ApiTags('category-events')
+@ApiTags('events')
 @UseInterceptors(ApiSuccessResponseInterceptor, ApiCacheHeadersInterceptor)
 @UseFilters(new AllHttpExceptionsFilter())
-@Controller('category-events')
+@Controller('events')
 export class ApiEventController {
   constructor(private readonly service: ApiEventService) {}
 
