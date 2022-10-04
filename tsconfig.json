@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2020",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "resolveJsonModule": true,
+    "paths": {
+      "@app-libs/sls": [
+        "libs/sls/src"
+      ],
+      "@app-libs/sls/*": [
+        "libs/sls/src/*"
+      ],
+      "@app-libs/aws": [
+        "libs/aws/src"
+      ],
+      "@app-libs/aws/*": [
+        "libs/aws/src/*"
+      ],
+      "@app-libs/api": [
+        "libs/api/src"
+      ],
+      "@app-libs/api/*": [
+        "libs/api/src/*"
+      ],
+      "@app-libs/orm": [
+        "libs/orm/src"
+      ],
+      "@app-libs/orm/*": [
+        "libs/orm/src/*"
+      ],
+    }
+  }
+}

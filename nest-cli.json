@@ -1,0 +1,57 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/event/src",
+  "monorepo": true,
+  "root": "apps/event",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/event/tsconfig.app.json"
+  },
+  "projects": {
+    "event": {
+      "type": "application",
+      "root": "apps/event",
+      "entryFile": "main",
+      "sourceRoot": "apps/event/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/event/tsconfig.app.json"
+      }
+    },
+    "sls": {
+      "type": "library",
+      "root": "libs/sls",
+      "entryFile": "index",
+      "sourceRoot": "libs/sls/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/sls/tsconfig.lib.json"
+      }
+    },
+    "aws": {
+      "type": "library",
+      "root": "libs/aws",
+      "entryFile": "index",
+      "sourceRoot": "libs/aws/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/aws/tsconfig.lib.json"
+      }
+    },
+    "api": {
+      "type": "library",
+      "root": "libs/api",
+      "entryFile": "index",
+      "sourceRoot": "libs/api/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/api/tsconfig.lib.json"
+      }
+    },
+    "orm": {
+      "type": "library",
+      "root": "libs/orm",
+      "entryFile": "index",
+      "sourceRoot": "libs/orm/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/orm/tsconfig.lib.json"
+      }
+    }
+  }
+}
