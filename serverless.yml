@@ -10,7 +10,7 @@ frameworkVersion: ^2.25.2
 variablesResolutionMode: 20210326
 
 plugins:
-  - serverless-webpack
+  - serverless-esbuild
   - serverless-offline
   - serverless-deployment-bucket
   - serverless-scriptable-plugin
@@ -59,15 +59,8 @@ provider:
 custom:
   commands:
     runMigrations: 'node ./node_modules/serverless/bin/serverless invoke -f db-v1 -s ${opt:stage} -c ./serverless.yml'
-  webpack:
-    packager: 'npm'
-    webpackConfig: './sls/build/webpack.config.js'
-    packagerOptions:
-      scripts:
-        - 'npx clean-modules@2.0.4 --yes --exclude "**/makefile*"'
-    includeModules:
-      forceExclude:
-        - 'aws-sdk'
+  esbuild:
+    config:  './sls/build/esbuild.config.js'
   scriptable:
     # add custom hooks
     hooks:
