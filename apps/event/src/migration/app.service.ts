@@ -1,4 +1,4 @@
-import { DataSource } from 'typeorm';
+import { Connection } from 'typeorm';
 import { Controller, Logger } from '@nestjs/common';
 
 @Controller()
@@ -8,7 +8,7 @@ export class AppService {
 
   private readonly logger = new Logger(AppService.name);
 
-  constructor(private readonly connection: DataSource) {}
+  constructor(private readonly connection: Connection) {}
 
   /**
    * Runs database migrations scripts
